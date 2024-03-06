@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 class StoryPasswordGenerator
 {
@@ -29,13 +29,59 @@ class StoryPasswordGenerator
         Console.WriteLine("May it guide you safely through the digital landscape!");
     }
 
-    // Existing methods from previous code (GetYesNoInput, GeneratePassword)
+    static bool GetYesNoInput(string message)
+    {
+        Console.Write(message);
+        string input = Console.ReadLine().ToLower();
+        return input == "y" || input == "yes";
+    }
+
+    static string GeneratePassword(int length, bool uppercase, bool lowercase, bool numbers, bool symbols)
+    {
+        string password = "";
+
+        for (int i = 0; i < length; i++)
+        {
+            char nextChar = GetRandomCharacter(uppercase, lowercase, numbers, symbols);
+            password += nextChar;
+        }
+
+        return password;
+    }
+
+    static char GetRandomCharacter(bool uppercase, bool lowercase, bool numbers, bool symbols)
+    {
+        string uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        string lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
+        string numberChars = "0123456789";
+        string symbolChars = "!@#$%^&*()-=_+[]{}|;':,.<>?/";
+
+        string allChars = "";
+
+        if (uppercase)
+            allChars += uppercaseChars;
+
+        if (lowercase)
+            allChars += lowercaseChars;
+
+        if (numbers)
+            allChars += numberChars;
+
+        if (symbols)
+            allChars += symbolChars;
+
+        if (allChars.Length == 0)
+            return ' '; // Default to a space if no character types are selected
+
+        Random random = new Random();
+        return allChars[random.Next(allChars.Length)];
+    }
 
     static string GetStoryElement(bool include)
     {
         if (include)
         {
-            string[] elements = { "towering mountains", "hidden valleys", "ancient treasures", "mystical creatures" };
+            string[] elements = { "towering mountains", "hidden valleys", "ancient treasures", "mystical creatures", "enchanted forests", "forgotten ruins" };
             Random random = new Random();
             return elements[random.Next(elements.Length)];
         }
@@ -45,3 +91,4 @@ class StoryPasswordGenerator
         }
     }
 }
+
